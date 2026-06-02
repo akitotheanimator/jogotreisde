@@ -1,0 +1,137 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://prefab/player.gd" id="1_txlk6"]
+[ext_resource type="Script" path="res://cam.gd" id="2_kclv8"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vt3hn"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_oj046"]
+animation = &"reload"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a1o1i"]
+animation = &"draw"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wowq3"]
+animation = &"draw"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1lk0m"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cmbin"]
+animation = &"jog"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_opt6g"]
+animation = &"reload"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fmpo2"]
+animation = &"reload_empty"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_h44ax"]
+animation = &"shoot"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_h44ax"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cmbin"]
+xfade_time = 0.4
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qi8ca"]
+xfade_time = 0.01
+advance_mode = 2
+advance_condition = &"reloading"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ah4br"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_vsru0"]
+advance_mode = 2
+advance_condition = &"reload_empty"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_comai"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_bplmw"]
+advance_mode = 2
+
+[sub_resource type="Curve" id="Curve_iqkys"]
+_limits = [0.0, 4.0, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.57407415, 1.3786635), 7.1823487, 7.1823487, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_yscn5"]
+xfade_time = 0.3
+xfade_curve = SubResource("Curve_iqkys")
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_iqkys"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "jog==true"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5tq5p"]
+xfade_time = 0.2
+advance_mode = 2
+advance_expression = "jog==false"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_bplmw"]
+states/Start/position = Vector2(261, 100)
+states/draw/node = SubResource("AnimationNodeAnimation_wowq3")
+states/draw/position = Vector2(438, 100)
+states/idle/node = SubResource("AnimationNodeAnimation_1lk0m")
+states/idle/position = Vector2(550, 155)
+states/jog/node = SubResource("AnimationNodeAnimation_cmbin")
+states/jog/position = Vector2(640, 186)
+states/reload/node = SubResource("AnimationNodeAnimation_opt6g")
+states/reload/position = Vector2(550, 6)
+states/reload_empty/node = SubResource("AnimationNodeAnimation_fmpo2")
+states/reload_empty/position = Vector2(658, 6)
+states/shoot/node = SubResource("AnimationNodeAnimation_h44ax")
+states/shoot/position = Vector2(550, 238)
+transitions = ["Start", "draw", SubResource("AnimationNodeStateMachineTransition_h44ax"), "draw", "idle", SubResource("AnimationNodeStateMachineTransition_cmbin"), "idle", "reload", SubResource("AnimationNodeStateMachineTransition_qi8ca"), "reload", "idle", SubResource("AnimationNodeStateMachineTransition_ah4br"), "idle", "reload_empty", SubResource("AnimationNodeStateMachineTransition_vsru0"), "reload_empty", "idle", SubResource("AnimationNodeStateMachineTransition_comai"), "Start", "shoot", SubResource("AnimationNodeStateMachineTransition_bplmw"), "shoot", "idle", SubResource("AnimationNodeStateMachineTransition_yscn5"), "idle", "jog", SubResource("AnimationNodeStateMachineTransition_iqkys"), "jog", "idle", SubResource("AnimationNodeStateMachineTransition_5tq5p")]
+graph_offset = Vector2(87, -69)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_iqkys"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_yscn5"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_5tq5p"]
+graph_offset = Vector2(-581.8477, 50.641983)
+nodes/output/position = Vector2(406.87927, 154.39229)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_oj046")
+"nodes/Animation 2/position" = Vector2(-497.8507, 554.91077)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_a1o1i")
+nodes/Animation/position = Vector2(-524.6863, 156.11118)
+nodes/speed/node = SubResource("AnimationNodeTimeScale_yscn5")
+nodes/speed/position = Vector2(169.16406, 124.699585)
+nodes/idle/node = SubResource("AnimationNodeAnimation_iqkys")
+nodes/idle/position = Vector2(-489.681, 341.3864)
+nodes/anim/node = SubResource("AnimationNodeStateMachine_bplmw")
+nodes/anim/position = Vector2(-181.51736, 130.71698)
+node_connections = [&"output", 0, &"speed", &"speed", 0, &"anim"]
+
+[node name="player" type="CharacterBody3D" unique_id=1360092016]
+transform = Transform3D(0.93041795, 0, -0.36649784, 0, 1, 0, 0.36649784, 0, 0.93041795, 8.5919485, -2.382403, -14.874974)
+velocity = Vector3(1.1183673e-33, 0, -2.8391682e-33)
+script = ExtResource("1_txlk6")
+
+[node name="col" type="CollisionShape3D" parent="." unique_id=1588598705]
+shape = SubResource("CapsuleShape3D_vt3hn")
+
+[node name="cam" type="Camera3D" parent="." unique_id=1915290537]
+transform = Transform3D(1, 0, 0, 0, 0.9916709, -0.12879771, 0, 0.12879771, 0.9916709, 0, 1.1106849, 0)
+fov = 35.0
+script = ExtResource("2_kclv8")
+
+[node name="cam_glock#AnimationTree" type="AnimationTree" parent="." unique_id=943185995]
+tree_root = SubResource("AnimationNodeBlendTree_5tq5p")
+advance_expression_base_node = NodePath("../../..")
+anim_player = NodePath("../AnimationPlayer")
+parameters/speed/scale = 1.0
+parameters/anim/conditions/reload_empty = false
+parameters/anim/conditions/reloading = false
